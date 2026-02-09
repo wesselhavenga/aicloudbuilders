@@ -18,6 +18,7 @@
       --text:#EAF0FF;
       --muted:rgba(234,240,255,.72);
       --muted2:rgba(234,240,255,.52);
+      --stroke:rgba(234,240,255,.12);
       --shadow: 0 18px 55px rgba(0,0,0,.45);
       --shadow2: 0 10px 30px rgba(0,0,0,.35);
       --radius: 22px;
@@ -57,19 +58,19 @@
     }
 
     /* ============================
-       NAV: PREMIUM GLOW + SHRINK
+       HEADER / NAV (BIGGER + GLOW)
        ============================ */
     .logo{ object-fit:contain; display:block; }
 
     header{
       position:sticky; top:0; z-index:50;
       backdrop-filter: blur(14px);
-      background: rgba(7,10,18,.22);
+      background: rgba(7,10,18,.26);
       border-bottom: 1px solid rgba(234,240,255,.08);
       transition: background .18s ease, box-shadow .18s ease;
     }
     header.scrolled{
-      background: rgba(7,10,18,.40);
+      background: rgba(7,10,18,.44);
       box-shadow: 0 18px 55px rgba(0,0,0,.35);
     }
 
@@ -77,7 +78,7 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding: 10px 0;
+      padding: 14px 0; /* bigger, still compact */
       gap: 14px;
     }
 
@@ -88,7 +89,7 @@
       min-width:0;
       flex: 1 1 auto;
       border-radius: 18px;
-      padding: 6px 10px 6px 6px;
+      padding: 8px 12px 8px 8px;
       transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
     }
     .brand:hover{
@@ -99,23 +100,22 @@
       transform: translateY(-1px);
     }
 
-    /* Logo sizes (starts strong, shrinks slightly on scroll) */
     header .brand .logo{
-      width:64px;
-      height:64px;
+      width:72px;
+      height:72px;
       border-radius:14px;
       filter: drop-shadow(0 14px 24px rgba(0,0,0,.35));
       transition: width .18s ease, height .18s ease, filter .18s ease;
     }
     header.scrolled .brand .logo{
-      width:52px;
-      height:52px;
+      width:58px;
+      height:58px;
       filter: drop-shadow(0 10px 18px rgba(0,0,0,.30));
     }
 
     .brand > div{ min-width:0; }
     .brand h1{
-      font-size: 14px;
+      font-size: 15px;
       margin:0;
       letter-spacing:.35px;
       font-weight: 900;
@@ -126,7 +126,7 @@
     }
     .brand p{
       margin:3px 0 0;
-      font-size: 11px;
+      font-size: 12px;
       color: var(--muted2);
       letter-spacing:.25px;
       line-height: 1.1;
@@ -148,7 +148,7 @@
       border-radius: 12px;
       border: 1px solid transparent;
       white-space:nowrap;
-      transition: background .14s ease, border-color .14s ease, color .14s ease;
+      transition: background .14s ease, border-color .14s ease, color .14s ease, box-shadow .14s ease;
     }
     .links a:hover{
       color: var(--text);
@@ -172,7 +172,7 @@
       border: 1px solid rgba(234,240,255,.12);
       background: rgba(14,23,48,.55);
       color: var(--text);
-      font-weight: 800;
+      font-weight: 900;
       font-size: 12.5px;
       box-shadow: var(--shadow2);
       cursor:pointer;
@@ -519,9 +519,11 @@
     .band h4{ margin:0; font-size: 18px; letter-spacing:-.2px;}
     .band p{ margin:6px 0 0; color: var(--muted); font-size: 13px; line-height:1.55; max-width: 70ch; }
 
-    /* Footer/contact */
+    /* ============================
+       FOOTER (COMPACT + NO HUGE LOGO)
+       ============================ */
     footer{
-      padding: 30px 0 44px;
+      padding: 22px 0 28px; /* reduced */
       border-top: 1px solid rgba(234,240,255,.08);
       background: rgba(7,10,18,.35);
     }
@@ -531,16 +533,29 @@
       gap: 18px;
       align-items:start;
     }
+
+    /* Footer brand must not inherit hover/glow sizing */
     footer .brand{
-      padding:0;
-      background: transparent;
-      box-shadow:none;
-      transform:none;
+      padding:0 !important;
+      background: transparent !important;
+      box-shadow:none !important;
+      transform:none !important;
+      border-radius:0 !important;
     }
     footer .brand:hover{
-      background: transparent;
-      box-shadow:none;
-      transform:none;
+      background: transparent !important;
+      box-shadow:none !important;
+      transform:none !important;
+    }
+
+    /* HARD CLAMP footer logo to avoid SVG viewBox whitespace blowing it up */
+    footer .brand .logo{
+      width:40px !important;
+      height:40px !important;
+      max-width:40px !important;
+      max-height:40px !important;
+      border-radius:12px !important;
+      filter:none !important;
     }
 
     .contact{
@@ -579,17 +594,19 @@
       color: var(--muted2);
       font-size: 12px;
       line-height:1.5;
+      margin: 8px 0 0;
     }
 
     .footLinks{
       display:grid;
       gap: 10px;
       align-content:start;
+      margin-top: 12px;
     }
     .footLinks a{
       display:flex; align-items:center; justify-content:space-between;
       gap: 12px;
-      padding: 12px 14px;
+      padding: 10px 12px; /* slightly tighter */
       border-radius: 16px;
       border: 1px solid rgba(234,240,255,.10);
       background: rgba(14,23,48,.22);
@@ -603,8 +620,8 @@
 
     /* Responsive */
     @media (max-width: 1024px){
-      header .brand .logo{ width:56px; height:56px; }
-      header.scrolled .brand .logo{ width:48px; height:48px; }
+      header .brand .logo{ width:64px; height:64px; }
+      header.scrolled .brand .logo{ width:54px; height:54px; }
     }
     @media (max-width: 980px){
       .heroGrid{ grid-template-columns: 1fr; }
@@ -616,13 +633,13 @@
     @media (max-width: 640px){
       .links{ display:none; }
       .hamburger{ display:inline-flex; }
-      header .brand .logo{ width:44px; height:44px; }
-      header.scrolled .brand .logo{ width:40px; height:40px; }
+      header .brand .logo{ width:48px; height:48px; }
+      header.scrolled .brand .logo{ width:44px; height:44px; }
       .cards .card{ grid-column: span 12; }
       .steps .step{ grid-column: span 12; }
       .row{ grid-template-columns: 1fr; }
       .cta a.btn:not(.primary){ display:none; } /* keep primary CTA on tiny screens */
-      .brand p{ display:none; } /* reduce header clutter on tiny screens */
+      .brand p{ display:none; } /* reduce header clutter */
       .nav{ gap:10px; }
     }
 
@@ -638,6 +655,7 @@
   <header id="siteHeader">
     <div class="wrap nav">
       <a class="brand" href="#top" aria-label="AI Cloud Builders home">
+        <!-- NAV LOGO -->
         <img class="logo" src="logo.svg" alt="AI Cloud Builders logo" />
         <div>
           <h1>AI Cloud Builders (Pty) Ltd</h1>
@@ -937,7 +955,8 @@
     <footer id="contact">
       <div class="wrap footerGrid">
         <div class="reveal">
-          <div class="brand" style="margin-bottom:12px;">
+          <div class="brand" style="margin-bottom:10px;">
+            <!-- FOOTER LOGO (clamped) -->
             <img class="logo" src="logo.svg" alt="AI Cloud Builders logo" />
             <div>
               <h1 style="font-size:15px;">AI Cloud Builders (Pty) Ltd</h1>
@@ -951,14 +970,13 @@
             <span class="muted">Serving agriculture, regulated industries, and enterprise technology teams.</span>
           </p>
 
-          <div class="footLinks" style="margin-top:14px;">
+          <div class="footLinks">
             <a href="#services"><span>Capabilities</span><span class="muted">→</span></a>
             <a href="#agri"><span>IoT Agriculture</span><span class="muted">→</span></a>
             <a href="#security"><span>Security &amp; GRC</span><span class="muted">→</span></a>
           </div>
 
-          <div class="spacer"></div>
-          <p class="fine">
+          <p class="fine" style="margin-top:12px;">
             <span class="muted">© <span id="year"></span> AI Cloud Builders (Pty) Ltd.</span>
             <br/>
             <span class="muted">Domain:</span> aicloud.builders
@@ -1015,7 +1033,7 @@
 
   <script>
     // ========= EASY CONFIG =========
-    const SITE_EMAIL = "wessel@aicloud.builders"; // <-- change once if needed
+    const SITE_EMAIL = "wessel@aicloud.builders"; // change once if needed
     // ===============================
 
     // year
@@ -1030,7 +1048,7 @@
     }, { threshold: 0.15 });
     els.forEach(el => io.observe(el));
 
-    // header shrink/glow on scroll
+    // header shrink on scroll
     const header = document.getElementById('siteHeader');
     const onScroll = () => {
       if(window.scrollY > 8) header.classList.add('scrolled');
@@ -1055,7 +1073,7 @@
       });
     }
 
-    // "Email directly" link wiring
+    // Email direct button wiring
     const emailDirect = document.getElementById('emailDirect');
     if(emailDirect){
       emailDirect.href = `mailto:${SITE_EMAIL}?subject=${encodeURIComponent("Enquiry - AI Cloud Builders")}`;
