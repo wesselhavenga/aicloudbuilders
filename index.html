@@ -66,10 +66,10 @@
     .logo{
       width:300px;
       height:300px;
-      border-radius:1px;
-      object-fit:contain;
-      /* box-shadow: 0 10px 222px rgba(124,58,237,.25); */
-  }
+      border-radius: 1px;
+      object-fit: contain;
+    }
+
 
 
     /* top nav */
@@ -522,12 +522,10 @@
       .hideMobile{ display:none; }
     }
     @media (max-width: 640px){
-      .links{ display:none; }
-      .hamburger{ display:inline-flex; }
-      .cards .card{ grid-column: span 12; }
-      .steps .step{ grid-column: span 12; }
-      .row{ grid-template-columns: 1fr; }
-      .brand{ min-width: auto; }
+      .brand .logo{
+        width:38px;
+        height:38px;
+      }
     }
 
     /* motion */
