@@ -31,8 +31,6 @@
       --a:#15B7FF; /* cyan */
       --b:#7C3AED; /* purple */
       --c:#22C55E; /* green */
-      --warn:#F59E0B;
-      --danger:#EF4444;
 
       --grad: linear-gradient(135deg, var(--a), var(--b));
       --grad2: radial-gradient(800px 500px at 20% 10%, rgba(21,183,255,.18), transparent 60%),
@@ -48,7 +46,7 @@
       font-family:var(--mono);
       color:var(--text);
       background: var(--grad2), linear-gradient(180deg, var(--bg), var(--bg2));
-      overflow-x:hidden;
+      overflow-x:hidden; /* critical: no sideways scroll */
     }
     a{ color:inherit; text-decoration:none; }
     .wrap{ width: min(var(--max), calc(100% - 44px)); margin: 0 auto; }
@@ -63,49 +61,66 @@
       mask-image: radial-gradient( circle at 30% 10%, black 0%, transparent 65% );
     }
 
-    .logo{
-      width:300px;
-      height:300px;
-      border-radius: 1px;
-      object-fit: contain;
+    /* Logo: small in header, larger in footer */
+    .logo{ object-fit:contain; display:block; }
+    header .brand .logo{
+      width:40px; height:40px; border-radius:12px;
+    }
+    footer .brand .logo{
+      width:54px; height:54px; border-radius:14px;
     }
 
-
-
-    /* top nav */
+    /* TOP NAV */
     header{
       position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(10px);
-      background: rgba(7,10,18,.55);
+      backdrop-filter: blur(12px);
+      background: rgba(7,10,18,.28);
       border-bottom: 1px solid rgba(234,240,255,.08);
     }
+
     .nav{
-      display:flex; align-items:center; justify-content:space-between;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       padding: 8px 0;
+      gap: 14px;
+      max-width:100%;
     }
+
     .brand{
-      display:flex; gap:12px; align-items:center;
-      min-width: 240px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      min-width: 0;      /* allow shrink */
+      flex: 1 1 auto;    /* allow shrink */
     }
-    .mark{
-      width:38px; height:38px; border-radius: 14px;
-      background: var(--grad);
-      box-shadow: 0 10px 30px rgba(124,58,237,.25);
-      position:relative; overflow:hidden;
-    }
-    .mark:before{
-      content:""; position:absolute; inset:-40%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 40%);
-      transform: rotate(12deg);
-    }
+    .brand > div{ min-width:0; } /* allow ellipsis */
     .brand h1{
-      font-size: 14px; margin:0; letter-spacing:.5px;
+      font-size: 13px;
+      margin:0;
+      letter-spacing:.3px;
       font-weight: 800;
+      line-height: 1.1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
-    .brand p{ margin:0; font-size:12px; color:var(--muted2); letter-spacing:.3px; }
+    .brand p{
+      margin:2px 0 0;
+      font-size: 11px;
+      color: var(--muted2);
+      letter-spacing:.25px;
+      line-height: 1.1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
 
     .links{
-      display:flex; gap:18px; align-items:center;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      flex: 0 0 auto;
     }
     .links a{
       font-size: 13px;
@@ -113,6 +128,7 @@
       padding: 8px 10px;
       border-radius: 12px;
       border: 1px solid transparent;
+      white-space:nowrap;
     }
     .links a:hover{
       color: var(--text);
@@ -121,18 +137,22 @@
     }
 
     .cta{
-      display:flex; gap:10px; align-items:center;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex: 0 0 auto;
     }
+
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
       gap:10px;
-      padding: 10px 14px;
-      border-radius: 14px;
+      padding: 8px 12px;
+      border-radius: 12px;
       border: 1px solid rgba(234,240,255,.12);
       background: rgba(14,23,48,.55);
       color: var(--text);
       font-weight: 700;
-      font-size: 13px;
+      font-size: 12.5px;
       box-shadow: var(--shadow2);
       cursor:pointer;
       transition: transform .12s ease, border-color .12s ease, background .12s ease;
@@ -150,9 +170,26 @@
       background: var(--a);
       box-shadow: 0 0 0 6px rgba(21,183,255,.18);
     }
+
+    /* Hamburger button visible only on mobile */
     .hamburger{ display:none; }
 
-    /* hero */
+    /* Mobile menu panel */
+    .mobileMenu{
+      display:none;
+      padding: 10px 0 14px;
+      border-top: 1px solid rgba(234,240,255,.08);
+    }
+    .mobileMenu a{
+      display:block;
+      padding: 12px 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .mobileMenu a:hover{ color: var(--text); }
+    .mobileMenu.open{ display:block; }
+
+    /* HERO */
     .hero{ padding: 56px 0 28px; }
     .heroGrid{
       display:grid;
@@ -169,6 +206,7 @@
       color: var(--muted);
       font-size: 12px;
       letter-spacing: .3px;
+      flex-wrap:wrap;
     }
     .kicker .pill{
       padding: 4px 8px;
@@ -198,12 +236,10 @@
       line-height: 1.6;
       max-width: 62ch;
     }
-
     .heroActions{
       display:flex; gap:12px; flex-wrap:wrap;
       margin-top: 18px;
     }
-
     .trustRow{
       margin-top: 18px;
       display:flex; gap:14px; flex-wrap:wrap;
@@ -253,6 +289,7 @@
       display:flex; align-items:center; justify-content:space-between;
       gap:12px;
       margin-bottom: 10px;
+      flex-wrap:wrap;
     }
     .badge{
       display:inline-flex; align-items:center; gap:8px;
@@ -316,12 +353,13 @@
     .callout h5{ margin:0 0 4px; font-size: 13px; }
     .callout p{ margin:0; color: var(--muted); font-size: 13px; line-height:1.45; }
 
-    /* sections */
+    /* SECTIONS */
     section{ padding: 40px 0; }
     .sectionHead{
       display:flex; align-items:flex-end; justify-content:space-between;
       gap: 16px;
       margin-bottom: 16px;
+      flex-wrap:wrap;
     }
     .sectionHead h3{
       margin:0;
@@ -348,8 +386,6 @@
       background: linear-gradient(180deg, rgba(16,27,56,.60), rgba(14,23,48,.38));
       padding: 16px;
       box-shadow: var(--shadow2);
-      position:relative;
-      overflow:hidden;
       transition: transform .14s ease, border-color .14s ease;
     }
     .card:hover{ transform: translateY(-2px); border-color: rgba(234,240,255,.20); }
@@ -357,6 +393,7 @@
       display:flex; align-items:center; justify-content:space-between;
       gap: 12px;
       margin-bottom: 10px;
+      flex-wrap:wrap;
     }
     .chip{
       display:inline-flex; gap:8px; align-items:center;
@@ -393,7 +430,7 @@
       flex: 0 0 auto;
     }
 
-    /* process */
+    /* PROCESS */
     .steps{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -417,7 +454,7 @@
     .step h4{ margin:0 0 6px; font-size: 14px;}
     .step p{ margin:0; color: var(--muted); font-size: 13px; line-height: 1.55; }
 
-    /* CTA band */
+    /* CTA BAND */
     .band{
       border-radius: 26px;
       border: 1px solid rgba(234,240,255,.12);
@@ -430,6 +467,7 @@
       gap: 16px;
       overflow:hidden;
       position:relative;
+      flex-wrap:wrap;
     }
     .band:before{
       content:"";
@@ -442,7 +480,7 @@
     .band h4{ margin:0; font-size: 18px; letter-spacing:-.2px;}
     .band p{ margin:6px 0 0; color: var(--muted); font-size: 13px; line-height:1.55; max-width: 70ch; }
 
-    /* footer/contact */
+    /* FOOTER */
     footer{
       padding: 30px 0 44px;
       border-top: 1px solid rgba(234,240,255,.08);
@@ -491,7 +529,6 @@
       font-size: 12px;
       line-height:1.5;
     }
-
     .footLinks{
       display:grid;
       gap: 10px;
@@ -508,12 +545,12 @@
     }
     .footLinks a:hover{ color: var(--text); border-color: rgba(234,240,255,.18); }
 
-    /* small helpers */
+    /* Helpers */
     .muted{ color: var(--muted); }
     .spacer{ height: 10px; }
     .hideMobile{ display: block; }
 
-    /* responsive */
+    /* Responsive */
     @media (max-width: 980px){
       .heroGrid{ grid-template-columns: 1fr; }
       .cards .card{ grid-column: span 6; }
@@ -522,13 +559,16 @@
       .hideMobile{ display:none; }
     }
     @media (max-width: 640px){
-      .brand .logo{
-        width:38px;
-        height:38px;
-      }
+      .links{ display:none; }
+      .hamburger{ display:inline-flex; }
+      .cards .card{ grid-column: span 12; }
+      .steps .step{ grid-column: span 12; }
+      .row{ grid-template-columns: 1fr; }
+      .brand{ flex: 1 1 auto; }
+      .cta a.btn:not(.primary){ display:none; } /* keep only primary CTA on tiny screens */
     }
 
-    /* motion */
+    /* Motion */
     .reveal{ opacity:0; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease; }
     .reveal.show{ opacity:1; transform:none; }
   </style>
@@ -551,18 +591,27 @@
         <a href="#services">Services</a>
         <a href="#agri">IoT Agriculture</a>
         <a href="#delivery">Delivery</a>
-        <a href="#security">Security & GRC</a>
+        <a href="#security">Security &amp; GRC</a>
         <a href="#contact">Contact</a>
       </nav>
 
       <div class="cta">
-        <a class="btn hamburger" href="#contact" title="Contact">
-          <span class="dot" aria-hidden="true"></span> Contact
-        </a>
+        <button class="btn hamburger" id="menuBtn" type="button" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="dot" aria-hidden="true"></span> Menu
+        </button>
         <a class="btn" href="#services">Explore Services</a>
-        <a class="btn primary" href="#contact">
-          <span class="dot" aria-hidden="true"></span> Book a Call
-        </a>
+        <a class="btn primary" href="#contact"><span class="dot" aria-hidden="true"></span> Book a Call</a>
+      </div>
+    </div>
+
+    <!-- Mobile menu (hidden until Menu button clicked) -->
+    <div class="wrap">
+      <div class="mobileMenu" id="mobileMenu">
+        <a href="#services">Services</a>
+        <a href="#agri">IoT Agriculture</a>
+        <a href="#delivery">Delivery</a>
+        <a href="#security">Security &amp; GRC</a>
+        <a href="#contact">Contact</a>
       </div>
     </div>
   </header>
@@ -579,7 +628,7 @@
 
           <h2>
             We build <span class="grad">secure</span>, <span class="grad">scalable</span> platforms across
-            <span class="grad">Cloud</span>, <span class="grad">Data</span> & <span class="grad">AI</span>.
+            <span class="grad">Cloud</span>, <span class="grad">Data</span> &amp; <span class="grad">AI</span>.
           </h2>
 
           <p class="lead">
@@ -652,7 +701,7 @@
               <span class="chip"><span class="bubble"></span> Cloud Platform</span>
               <span class="muted">Azure • AWS • GCP</span>
             </div>
-            <h4>Cloud architecture & platform engineering</h4>
+            <h4>Cloud architecture &amp; platform engineering</h4>
             <p>Secure landing zones, networks, identity, guardrails, logging, and operational readiness.</p>
             <ul class="list">
               <li>Reference architecture + bill of materials</li>
@@ -666,7 +715,7 @@
               <span class="chip"><span class="bubble"></span> DevOps</span>
               <span class="muted">Terraform • CI/CD</span>
             </div>
-            <h4>DevOps build & modernization</h4>
+            <h4>DevOps build &amp; modernization</h4>
             <p>Automate delivery pipelines and infrastructure with reliable, repeatable engineering practices.</p>
             <ul class="list">
               <li>Terraform modules and environments</li>
@@ -694,7 +743,7 @@
               <span class="chip"><span class="bubble"></span> Data Engineering</span>
               <span class="muted">Transform • Scale</span>
             </div>
-            <h4>Data pipelines & transformation</h4>
+            <h4>Data pipelines &amp; transformation</h4>
             <p>Design and build modern data platforms with quality, lineage, and measurable outcomes.</p>
             <ul class="list">
               <li>Ingestion, ELT/ETL, orchestration</li>
@@ -708,7 +757,7 @@
               <span class="chip"><span class="bubble"></span> AI</span>
               <span class="muted">Azure AI • Google AI</span>
             </div>
-            <h4>Agentic AI & enterprise AI services</h4>
+            <h4>Agentic AI &amp; enterprise AI services</h4>
             <p>AI solutions that integrate with your business processes, data, and security requirements.</p>
             <ul class="list">
               <li>Agent orchestration and tool calling</li>
@@ -719,10 +768,10 @@
 
           <article class="card reveal" id="security">
             <div class="top">
-              <span class="chip"><span class="bubble"></span> Security & GRC</span>
+              <span class="chip"><span class="bubble"></span> Security &amp; GRC</span>
               <span class="muted">Risk • Controls</span>
             </div>
-            <h4>Cyber security, classification & compliance</h4>
+            <h4>Cyber security, classification &amp; compliance</h4>
             <p>Practical security and governance that supports delivery speed while protecting the organization.</p>
             <ul class="list">
               <li>Data classification and protection</li>
@@ -750,7 +799,7 @@
               <span class="chip"><span class="bubble"></span> Edge → Cloud</span>
               <span class="muted">Reliable ingestion</span>
             </div>
-            <h4>Sensor & telemetry architecture</h4>
+            <h4>Sensor &amp; telemetry architecture</h4>
             <p>Design ingestion patterns for intermittent connectivity, device identity, and secure provisioning.</p>
             <ul class="list">
               <li>Device onboarding, identity, and key management</li>
@@ -764,7 +813,7 @@
               <span class="chip"><span class="bubble"></span> Data → Decisions</span>
               <span class="muted">Operational insights</span>
             </div>
-            <h4>Analytics & automation</h4>
+            <h4>Analytics &amp; automation</h4>
             <p>Transform raw signals into decisions — alerts, forecasting, anomaly detection, and automated workflows.</p>
             <ul class="list">
               <li>Stream/Batch processing and transformation</li>
@@ -846,15 +895,9 @@
           </p>
 
           <div class="footLinks" style="margin-top:14px;">
-            <a href="#services">
-              <span>Capabilities</span><span class="muted">→</span>
-            </a>
-            <a href="#agri">
-              <span>IoT Agriculture</span><span class="muted">→</span>
-            </a>
-            <a href="#security">
-              <span>Security & GRC</span><span class="muted">→</span>
-            </a>
+            <a href="#services"><span>Capabilities</span><span class="muted">→</span></a>
+            <a href="#agri"><span>IoT Agriculture</span><span class="muted">→</span></a>
+            <a href="#security"><span>Security &amp; GRC</span><span class="muted">→</span></a>
           </div>
 
           <div class="spacer"></div>
@@ -871,8 +914,6 @@
             Tell us what you’re trying to achieve. We’ll respond with the fastest path to a secure, production-ready solution.
           </p>
 
-          <!-- This form uses mailto for zero-backend simplicity.
-               If you want a real form (Netlify Forms / Formspree), tell me and I’ll wire it in. -->
           <form id="contactForm">
             <div class="row">
               <div>
@@ -881,7 +922,7 @@
               </div>
               <div>
                 <label for="email">Email</label>
-                <input id="email" name="email" type="email" placeholder="you@company.com" required />
+                <input id="email" name="email" type="email" placeholder="wessel@aicloud.builders" required />
               </div>
             </div>
 
@@ -903,7 +944,7 @@
 
             <div style="display:flex; gap:10px; align-items:center; margin-top:12px; flex-wrap:wrap;">
               <button class="btn primary" type="submit"><span class="dot" aria-hidden="true"></span> Send enquiry</button>
-              <a class="btn" href="mailto:hello@aicloud.builders?subject=Enquiry%20-%20AI%20Cloud%20Builders">Email directly</a>
+              <a class="btn" id="emailDirect" href="#">Email directly</a>
             </div>
 
             <p class="fine" style="margin-top:10px;">
@@ -916,6 +957,10 @@
   </main>
 
   <script>
+    // ========= EASY CONFIG =========
+    const SITE_EMAIL = "info@aicloud.builders"; 
+    // ===============================
+
     // year
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -927,6 +972,31 @@
       });
     }, { threshold: 0.15 });
     els.forEach(el => io.observe(el));
+
+    // mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    if(menuBtn && mobileMenu){
+      menuBtn.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('open');
+        menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+          menuBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+
+    // "Email directly" link wiring
+    const emailDirect = document.getElementById('emailDirect');
+    if(emailDirect){
+      emailDirect.href = `mailto:${SITE_EMAIL}?subject=${encodeURIComponent("Enquiry - AI Cloud Builders")}`;
+      emailDirect.textContent = `Email ${SITE_EMAIL}`;
+    }
 
     // mailto submit (no backend)
     document.getElementById('contactForm').addEventListener('submit', (ev) => {
@@ -942,9 +1012,7 @@
         `Name: ${name}\nEmail: ${email}\nCompany: ${company}\nTopic: ${topic}\n\nMessage:\n${msg}\n`
       );
 
-      // Change this to your real inbox when ready:
-      const to = "hello@aicloud.builders";
-      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:${SITE_EMAIL}?subject=${subject}&body=${body}`;
     });
   </script>
 </body>
