@@ -15,13 +15,9 @@
     :root{
       --bg:#070A12;
       --bg2:#0B1020;
-      --card:#0E1730;
-      --card2:#101B38;
       --text:#EAF0FF;
       --muted:rgba(234,240,255,.72);
       --muted2:rgba(234,240,255,.52);
-      --stroke:rgba(234,240,255,.12);
-      --stroke2:rgba(234,240,255,.08);
       --shadow: 0 18px 55px rgba(0,0,0,.45);
       --shadow2: 0 10px 30px rgba(0,0,0,.35);
       --radius: 22px;
@@ -40,13 +36,12 @@
     }
 
     *{ box-sizing:border-box; }
-    html,body{ height:100%; }
+    html,body{ height:100%; overflow-x:hidden; }
     body{
       margin:0;
       font-family:var(--mono);
       color:var(--text);
       background: var(--grad2), linear-gradient(180deg, var(--bg), var(--bg2));
-      overflow-x:hidden; /* critical: no sideways scroll */
     }
     a{ color:inherit; text-decoration:none; }
     .wrap{ width: min(var(--max), calc(100% - 44px)); margin: 0 auto; }
@@ -61,52 +56,76 @@
       mask-image: radial-gradient( circle at 30% 10%, black 0%, transparent 65% );
     }
 
-    /* Logo: small in header, larger in footer */
+    /* ============================
+       NAV: PREMIUM GLOW + SHRINK
+       ============================ */
     .logo{ object-fit:contain; display:block; }
-    header .brand .logo{
-      width:40px; height:40px; border-radius:12px;
-    }
-    footer .brand .logo{
-      width:54px; height:54px; border-radius:14px;
-    }
 
-    /* TOP NAV */
     header{
       position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(12px);
-      background: rgba(7,10,18,.28);
+      backdrop-filter: blur(14px);
+      background: rgba(7,10,18,.22);
       border-bottom: 1px solid rgba(234,240,255,.08);
+      transition: background .18s ease, box-shadow .18s ease;
+    }
+    header.scrolled{
+      background: rgba(7,10,18,.40);
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
     }
 
     .nav{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      padding: 8px 0;
+      padding: 10px 0;
       gap: 14px;
-      max-width:100%;
     }
 
     .brand{
       display:flex;
-      gap:10px;
+      gap:12px;
       align-items:center;
-      min-width: 0;      /* allow shrink */
-      flex: 1 1 auto;    /* allow shrink */
+      min-width:0;
+      flex: 1 1 auto;
+      border-radius: 18px;
+      padding: 6px 10px 6px 6px;
+      transition: background .18s ease, box-shadow .18s ease, transform .18s ease;
     }
-    .brand > div{ min-width:0; } /* allow ellipsis */
+    .brand:hover{
+      background: rgba(14,23,48,.30);
+      box-shadow: 0 0 0 1px rgba(234,240,255,.08),
+                  0 0 34px rgba(21,183,255,.18),
+                  0 0 34px rgba(124,58,237,.14);
+      transform: translateY(-1px);
+    }
+
+    /* Logo sizes (starts strong, shrinks slightly on scroll) */
+    header .brand .logo{
+      width:64px;
+      height:64px;
+      border-radius:14px;
+      filter: drop-shadow(0 14px 24px rgba(0,0,0,.35));
+      transition: width .18s ease, height .18s ease, filter .18s ease;
+    }
+    header.scrolled .brand .logo{
+      width:52px;
+      height:52px;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.30));
+    }
+
+    .brand > div{ min-width:0; }
     .brand h1{
-      font-size: 13px;
+      font-size: 14px;
       margin:0;
-      letter-spacing:.3px;
-      font-weight: 800;
+      letter-spacing:.35px;
+      font-weight: 900;
       line-height: 1.1;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
     }
     .brand p{
-      margin:2px 0 0;
+      margin:3px 0 0;
       font-size: 11px;
       color: var(--muted2);
       letter-spacing:.25px;
@@ -129,11 +148,13 @@
       border-radius: 12px;
       border: 1px solid transparent;
       white-space:nowrap;
+      transition: background .14s ease, border-color .14s ease, color .14s ease;
     }
     .links a:hover{
       color: var(--text);
       border-color: rgba(234,240,255,.10);
       background: rgba(14,23,48,.35);
+      box-shadow: 0 0 24px rgba(21,183,255,.10);
     }
 
     .cta{
@@ -146,38 +167,45 @@
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
       gap:10px;
-      padding: 8px 12px;
-      border-radius: 12px;
+      padding: 9px 13px;
+      border-radius: 13px;
       border: 1px solid rgba(234,240,255,.12);
       background: rgba(14,23,48,.55);
       color: var(--text);
-      font-weight: 700;
+      font-weight: 800;
       font-size: 12.5px;
       box-shadow: var(--shadow2);
       cursor:pointer;
-      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease, box-shadow .12s ease;
       user-select:none;
       white-space:nowrap;
     }
-    .btn:hover{ transform: translateY(-1px); border-color: rgba(234,240,255,.22); background: rgba(16,27,56,.7); }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(234,240,255,.22);
+      background: rgba(16,27,56,.7);
+      box-shadow: var(--shadow2), 0 0 28px rgba(21,183,255,.10);
+    }
     .btn.primary{
       border-color: rgba(21,183,255,.25);
       background: linear-gradient(135deg, rgba(21,183,255,.22), rgba(124,58,237,.22));
     }
-    .btn.primary:hover{ border-color: rgba(21,183,255,.45); }
+    .btn.primary:hover{
+      border-color: rgba(21,183,255,.45);
+      box-shadow: var(--shadow2), 0 0 36px rgba(21,183,255,.18), 0 0 26px rgba(124,58,237,.14);
+    }
     .btn .dot{
       width:8px; height:8px; border-radius:99px;
       background: var(--a);
       box-shadow: 0 0 0 6px rgba(21,183,255,.18);
     }
 
-    /* Hamburger button visible only on mobile */
     .hamburger{ display:none; }
 
     /* Mobile menu panel */
     .mobileMenu{
       display:none;
-      padding: 10px 0 14px;
+      padding: 8px 0 14px;
       border-top: 1px solid rgba(234,240,255,.08);
     }
     .mobileMenu a{
@@ -185,11 +213,15 @@
       padding: 12px 0;
       color: var(--muted);
       font-size: 14px;
+      border-bottom: 1px dashed rgba(234,240,255,.10);
     }
+    .mobileMenu a:last-child{ border-bottom:none; }
     .mobileMenu a:hover{ color: var(--text); }
     .mobileMenu.open{ display:block; }
 
-    /* HERO */
+    /* ============================
+       HERO
+       ============================ */
     .hero{ padding: 56px 0 28px; }
     .heroGrid{
       display:grid;
@@ -214,7 +246,7 @@
       background: rgba(21,183,255,.16);
       border: 1px solid rgba(21,183,255,.25);
       color: rgba(234,240,255,.88);
-      font-weight: 800;
+      font-weight: 900;
       font-size: 11px;
     }
     .hero h2{
@@ -240,6 +272,7 @@
       display:flex; gap:12px; flex-wrap:wrap;
       margin-top: 18px;
     }
+
     .trustRow{
       margin-top: 18px;
       display:flex; gap:14px; flex-wrap:wrap;
@@ -299,7 +332,7 @@
       background: rgba(7,10,18,.35);
       color: rgba(234,240,255,.86);
       font-size: 12px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing:.2px;
       white-space:nowrap;
     }
@@ -353,7 +386,9 @@
     .callout h5{ margin:0 0 4px; font-size: 13px; }
     .callout p{ margin:0; color: var(--muted); font-size: 13px; line-height:1.45; }
 
-    /* SECTIONS */
+    /* ============================
+       SECTIONS
+       ============================ */
     section{ padding: 40px 0; }
     .sectionHead{
       display:flex; align-items:flex-end; justify-content:space-between;
@@ -386,9 +421,13 @@
       background: linear-gradient(180deg, rgba(16,27,56,.60), rgba(14,23,48,.38));
       padding: 16px;
       box-shadow: var(--shadow2);
-      transition: transform .14s ease, border-color .14s ease;
+      transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease;
     }
-    .card:hover{ transform: translateY(-2px); border-color: rgba(234,240,255,.20); }
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(234,240,255,.20);
+      box-shadow: var(--shadow2), 0 0 26px rgba(124,58,237,.10);
+    }
     .card .top{
       display:flex; align-items:center; justify-content:space-between;
       gap: 12px;
@@ -402,7 +441,7 @@
       background: rgba(7,10,18,.30);
       border: 1px solid rgba(234,240,255,.10);
       color: rgba(234,240,255,.86);
-      font-weight:800;
+      font-weight:900;
       font-size: 12px;
       letter-spacing:.2px;
     }
@@ -430,7 +469,7 @@
       flex: 0 0 auto;
     }
 
-    /* PROCESS */
+    /* Process */
     .steps{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -454,7 +493,7 @@
     .step h4{ margin:0 0 6px; font-size: 14px;}
     .step p{ margin:0; color: var(--muted); font-size: 13px; line-height: 1.55; }
 
-    /* CTA BAND */
+    /* CTA band */
     .band{
       border-radius: 26px;
       border: 1px solid rgba(234,240,255,.12);
@@ -480,7 +519,7 @@
     .band h4{ margin:0; font-size: 18px; letter-spacing:-.2px;}
     .band p{ margin:6px 0 0; color: var(--muted); font-size: 13px; line-height:1.55; max-width: 70ch; }
 
-    /* FOOTER */
+    /* Footer/contact */
     footer{
       padding: 30px 0 44px;
       border-top: 1px solid rgba(234,240,255,.08);
@@ -492,6 +531,18 @@
       gap: 18px;
       align-items:start;
     }
+    footer .brand{
+      padding:0;
+      background: transparent;
+      box-shadow:none;
+      transform:none;
+    }
+    footer .brand:hover{
+      background: transparent;
+      box-shadow:none;
+      transform:none;
+    }
+
     .contact{
       border-radius: var(--radius);
       border: 1px solid rgba(234,240,255,.10);
@@ -529,6 +580,7 @@
       font-size: 12px;
       line-height:1.5;
     }
+
     .footLinks{
       display:grid;
       gap: 10px;
@@ -545,12 +597,15 @@
     }
     .footLinks a:hover{ color: var(--text); border-color: rgba(234,240,255,.18); }
 
-    /* Helpers */
     .muted{ color: var(--muted); }
     .spacer{ height: 10px; }
-    .hideMobile{ display: block; }
+    .hideMobile{ display:block; }
 
     /* Responsive */
+    @media (max-width: 1024px){
+      header .brand .logo{ width:56px; height:56px; }
+      header.scrolled .brand .logo{ width:48px; height:48px; }
+    }
     @media (max-width: 980px){
       .heroGrid{ grid-template-columns: 1fr; }
       .cards .card{ grid-column: span 6; }
@@ -561,11 +616,14 @@
     @media (max-width: 640px){
       .links{ display:none; }
       .hamburger{ display:inline-flex; }
+      header .brand .logo{ width:44px; height:44px; }
+      header.scrolled .brand .logo{ width:40px; height:40px; }
       .cards .card{ grid-column: span 12; }
       .steps .step{ grid-column: span 12; }
       .row{ grid-template-columns: 1fr; }
-      .brand{ flex: 1 1 auto; }
-      .cta a.btn:not(.primary){ display:none; } /* keep only primary CTA on tiny screens */
+      .cta a.btn:not(.primary){ display:none; } /* keep primary CTA on tiny screens */
+      .brand p{ display:none; } /* reduce header clutter on tiny screens */
+      .nav{ gap:10px; }
     }
 
     /* Motion */
@@ -577,15 +635,15 @@
 <body>
   <div class="grid" aria-hidden="true"></div>
 
-  <header>
+  <header id="siteHeader">
     <div class="wrap nav">
-      <div class="brand">
+      <a class="brand" href="#top" aria-label="AI Cloud Builders home">
         <img class="logo" src="logo.svg" alt="AI Cloud Builders logo" />
         <div>
           <h1>AI Cloud Builders (Pty) Ltd</h1>
           <p>Cloud • Data • AI • DevOps • Security</p>
         </div>
-      </div>
+      </a>
 
       <nav class="links" aria-label="Primary">
         <a href="#services">Services</a>
@@ -604,7 +662,6 @@
       </div>
     </div>
 
-    <!-- Mobile menu (hidden until Menu button clicked) -->
     <div class="wrap">
       <div class="mobileMenu" id="mobileMenu">
         <a href="#services">Services</a>
@@ -616,7 +673,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="top">
     <!-- HERO -->
     <section class="hero">
       <div class="wrap heroGrid">
@@ -660,15 +717,15 @@
               <p>Landing zones, networks, IAM, CI/CD, observability — production-grade foundations.</p>
             </div>
             <div class="mini">
-              <h4>Data & AI</h4>
+              <h4>Data &amp; AI</h4>
               <p>Modern pipelines, lakehouse patterns, governance, and agentic AI solutions.</p>
             </div>
             <div class="mini">
-              <h4>DevOps & GitOps</h4>
+              <h4>DevOps &amp; GitOps</h4>
               <p>Infrastructure as Code with Terraform, GitHub workflows, and policy-as-code.</p>
             </div>
             <div class="mini">
-              <h4>Security & GRC</h4>
+              <h4>Security &amp; GRC</h4>
               <p>Classification, controls, risk treatment, secure SDLC, and audit evidence.</p>
             </div>
           </div>
@@ -922,7 +979,7 @@
               </div>
               <div>
                 <label for="email">Email</label>
-                <input id="email" name="email" type="email" placeholder="wessel@aicloud.builders" required />
+                <input id="email" name="email" type="email" placeholder="you@company.com" required />
               </div>
             </div>
 
@@ -948,7 +1005,7 @@
             </div>
 
             <p class="fine" style="margin-top:10px;">
-              <span class="muted">Tip:</span> Use a professional email (e.g. <span class="muted">you@aicloud.builders</span>) for enterprise engagement.
+              <span class="muted">Tip:</span> Use a professional email (e.g. <span class="muted">wessel@aicloud.builders</span>) for enterprise engagement.
             </p>
           </form>
         </div>
@@ -958,7 +1015,7 @@
 
   <script>
     // ========= EASY CONFIG =========
-    const SITE_EMAIL = "info@aicloud.builders"; 
+    const SITE_EMAIL = "wessel@aicloud.builders"; // <-- change once if needed
     // ===============================
 
     // year
@@ -973,16 +1030,23 @@
     }, { threshold: 0.15 });
     els.forEach(el => io.observe(el));
 
+    // header shrink/glow on scroll
+    const header = document.getElementById('siteHeader');
+    const onScroll = () => {
+      if(window.scrollY > 8) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive:true });
+    onScroll();
+
     // mobile menu toggle
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
-
     if(menuBtn && mobileMenu){
       menuBtn.addEventListener('click', () => {
         const open = mobileMenu.classList.toggle('open');
         menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
-
       mobileMenu.querySelectorAll('a').forEach(a => {
         a.addEventListener('click', () => {
           mobileMenu.classList.remove('open');
@@ -1011,7 +1075,6 @@
       const body = encodeURIComponent(
         `Name: ${name}\nEmail: ${email}\nCompany: ${company}\nTopic: ${topic}\n\nMessage:\n${msg}\n`
       );
-
       window.location.href = `mailto:${SITE_EMAIL}?subject=${subject}&body=${body}`;
     });
   </script>
