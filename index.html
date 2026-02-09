@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="AI Cloud Builders: Enterprise Cloud, Data, AI & DevOps delivery for agriculture and regulated industries. Azure, AWS, GCP. Terraform. GitOps. Security & GRC." />
+  <meta name="theme-color" content="#0B1020" />
+  <meta property="og:title" content="AI Cloud Builders (Pty) Ltd" />
+  <meta property="og:description" content="Cloud • Data • AI • DevOps • Security • GRC — engineered for production." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aicloud.builders" />
+  <title>AI Cloud Builders (Pty) Ltd — Cloud • Data • AI</title>
+
+  <style>
+    :root{
+      --bg:#070A12;
+      --bg2:#0B1020;
+      --card:#0E1730;
+      --card2:#101B38;
+      --text:#EAF0FF;
+      --muted:rgba(234,240,255,.72);
+      --muted2:rgba(234,240,255,.52);
+      --stroke:rgba(234,240,255,.12);
+      --stroke2:rgba(234,240,255,.08);
+      --shadow: 0 18px 55px rgba(0,0,0,.45);
+      --shadow2: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 22px;
+      --radius2: 18px;
+      --max: 1180px;
+
+      --a:#15B7FF; /* cyan */
+      --b:#7C3AED; /* purple */
+      --c:#22C55E; /* green */
+      --warn:#F59E0B;
+      --danger:#EF4444;
+
+      --grad: linear-gradient(135deg, var(--a), var(--b));
+      --grad2: radial-gradient(800px 500px at 20% 10%, rgba(21,183,255,.18), transparent 60%),
+               radial-gradient(900px 650px at 80% 30%, rgba(124,58,237,.18), transparent 60%),
+               radial-gradient(900px 650px at 60% 85%, rgba(34,197,94,.12), transparent 60%);
+      --mono: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family:var(--mono);
+      color:var(--text);
+      background: var(--grad2), linear-gradient(180deg, var(--bg), var(--bg2));
+      overflow-x:hidden;
+    }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ width: min(var(--max), calc(100% - 44px)); margin: 0 auto; }
+
+    /* subtle grid */
+    .grid{
+      position:fixed; inset:0; pointer-events:none; opacity:.22;
+      background:
+        linear-gradient(to right, rgba(234,240,255,.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(234,240,255,.06) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient( circle at 30% 10%, black 0%, transparent 65% );
+    }
+
+    /* top nav */
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(7,10,18,.55);
+      border-bottom: 1px solid rgba(234,240,255,.08);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 14px 0;
+    }
+    .brand{
+      display:flex; gap:12px; align-items:center;
+      min-width: 240px;
+    }
+    .mark{
+      width:38px; height:38px; border-radius: 14px;
+      background: var(--grad);
+      box-shadow: 0 10px 30px rgba(124,58,237,.25);
+      position:relative; overflow:hidden;
+    }
+    .mark:before{
+      content:""; position:absolute; inset:-40%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 40%);
+      transform: rotate(12deg);
+    }
+    .brand h1{
+      font-size: 14px; margin:0; letter-spacing:.5px;
+      font-weight: 800;
+    }
+    .brand p{ margin:0; font-size:12px; color:var(--muted2); letter-spacing:.3px; }
+
+    .links{
+      display:flex; gap:18px; align-items:center;
+    }
+    .links a{
+      font-size: 13px;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+    }
+    .links a:hover{
+      color: var(--text);
+      border-color: rgba(234,240,255,.10);
+      background: rgba(14,23,48,.35);
+    }
+
+    .cta{
+      display:flex; gap:10px; align-items:center;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(234,240,255,.12);
+      background: rgba(14,23,48,.55);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 13px;
+      box-shadow: var(--shadow2);
+      cursor:pointer;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); border-color: rgba(234,240,255,.22); background: rgba(16,27,56,.7); }
+    .btn.primary{
+      border-color: rgba(21,183,255,.25);
+      background: linear-gradient(135deg, rgba(21,183,255,.22), rgba(124,58,237,.22));
+    }
+    .btn.primary:hover{ border-color: rgba(21,183,255,.45); }
+    .btn .dot{
+      width:8px; height:8px; border-radius:99px;
+      background: var(--a);
+      box-shadow: 0 0 0 6px rgba(21,183,255,.18);
+    }
+    .hamburger{ display:none; }
+
+    /* hero */
+    .hero{ padding: 56px 0 28px; }
+    .heroGrid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 26px;
+      align-items:stretch;
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 8px 12px;
+      border: 1px solid rgba(234,240,255,.10);
+      border-radius: 999px;
+      background: rgba(14,23,48,.38);
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .3px;
+    }
+    .kicker .pill{
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(21,183,255,.16);
+      border: 1px solid rgba(21,183,255,.25);
+      color: rgba(234,240,255,.88);
+      font-weight: 800;
+      font-size: 11px;
+    }
+    .hero h2{
+      margin: 14px 0 10px;
+      font-size: clamp(34px, 4vw, 54px);
+      line-height: 1.02;
+      letter-spacing: -0.9px;
+    }
+    .hero h2 .grad{
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip:text;
+      color: transparent;
+    }
+    .hero p.lead{
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 62ch;
+    }
+
+    .heroActions{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top: 18px;
+    }
+
+    .trustRow{
+      margin-top: 18px;
+      display:flex; gap:14px; flex-wrap:wrap;
+      color: var(--muted2);
+      font-size: 12px;
+    }
+    .trustRow span{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(234,240,255,.08);
+      background: rgba(14,23,48,.26);
+    }
+    .tick{
+      width:18px; height:18px; border-radius: 7px;
+      background: rgba(34,197,94,.16);
+      border: 1px solid rgba(34,197,94,.25);
+      display:grid; place-items:center;
+      color: rgba(234,240,255,.9);
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .heroCard{
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(16,27,56,.75), rgba(14,23,48,.55));
+      border: 1px solid rgba(234,240,255,.10);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      padding: 18px;
+      min-height: 328px;
+    }
+    .heroCard:before{
+      content:"";
+      position:absolute; inset:-30%;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(21,183,255,.35), transparent 45%),
+        radial-gradient(circle at 70% 40%, rgba(124,58,237,.35), transparent 50%),
+        radial-gradient(circle at 50% 75%, rgba(34,197,94,.16), transparent 55%);
+      filter: blur(10px);
+      opacity:.55;
+      transform: rotate(8deg);
+    }
+    .heroCard > *{ position:relative; }
+    .cardTitle{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+      margin-bottom: 10px;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(234,240,255,.10);
+      background: rgba(7,10,18,.35);
+      color: rgba(234,240,255,.86);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .badge .spark{
+      width: 8px; height: 8px; border-radius: 999px;
+      background: var(--b);
+      box-shadow: 0 0 0 6px rgba(124,58,237,.18);
+    }
+
+    .stack{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .mini{
+      border-radius: 18px;
+      border: 1px solid rgba(234,240,255,.10);
+      background: rgba(7,10,18,.28);
+      padding: 12px;
+    }
+    .mini h4{
+      margin: 0 0 6px;
+      font-size: 12px;
+      letter-spacing: .4px;
+      color: rgba(234,240,255,.88);
+      text-transform: uppercase;
+    }
+    .mini p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .callout{
+      margin-top: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(234,240,255,.10);
+      background: rgba(7,10,18,.28);
+      padding: 14px;
+      display:flex; gap:12px; align-items:flex-start;
+    }
+    .callout .icon{
+      width:34px; height:34px; border-radius: 14px;
+      border: 1px solid rgba(21,183,255,.22);
+      background: rgba(21,183,255,.12);
+      display:grid; place-items:center;
+      font-weight:900;
+    }
+    .callout h5{ margin:0 0 4px; font-size: 13px; }
+    .callout p{ margin:0; color: var(--muted); font-size: 13px; line-height:1.45; }
+
+    /* sections */
+    section{ padding: 40px 0; }
+    .sectionHead{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .sectionHead h3{
+      margin:0;
+      font-size: 22px;
+      letter-spacing: -0.2px;
+    }
+    .sectionHead p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+      max-width: 60ch;
+      line-height:1.5;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .card{
+      grid-column: span 4;
+      border-radius: var(--radius2);
+      border: 1px solid rgba(234,240,255,.10);
+      background: linear-gradient(180deg, rgba(16,27,56,.60), rgba(14,23,48,.38));
+      padding: 16px;
+      box-shadow: var(--shadow2);
+      position:relative;
+      overflow:hidden;
+      transition: transform .14s ease, border-color .14s ease;
+    }
+    .card:hover{ transform: translateY(-2px); border-color: rgba(234,240,255,.20); }
+    .card .top{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .chip{
+      display:inline-flex; gap:8px; align-items:center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(7,10,18,.30);
+      border: 1px solid rgba(234,240,255,.10);
+      color: rgba(234,240,255,.86);
+      font-weight:800;
+      font-size: 12px;
+      letter-spacing:.2px;
+    }
+    .chip .bubble{
+      width:8px; height:8px; border-radius:99px; background: var(--a);
+      box-shadow: 0 0 0 6px rgba(21,183,255,.16);
+    }
+    .card h4{ margin:0 0 8px; font-size: 15px; letter-spacing: -0.2px;}
+    .card p{ margin:0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .list{
+      margin: 10px 0 0; padding:0; list-style:none;
+      display:grid; gap:8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .list li{
+      display:flex; gap:10px; align-items:flex-start;
+    }
+    .list li:before{
+      content:"";
+      width:10px; height:10px; margin-top: 5px;
+      border-radius: 4px;
+      background: rgba(124,58,237,.18);
+      border: 1px solid rgba(124,58,237,.28);
+      flex: 0 0 auto;
+    }
+
+    /* process */
+    .steps{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .step{
+      grid-column: span 3;
+      border-radius: var(--radius2);
+      border: 1px solid rgba(234,240,255,.10);
+      background: rgba(14,23,48,.32);
+      padding: 14px;
+    }
+    .num{
+      width:34px; height:34px; border-radius: 14px;
+      display:grid; place-items:center;
+      background: rgba(21,183,255,.14);
+      border: 1px solid rgba(21,183,255,.22);
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+    .step h4{ margin:0 0 6px; font-size: 14px;}
+    .step p{ margin:0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+
+    /* CTA band */
+    .band{
+      border-radius: 26px;
+      border: 1px solid rgba(234,240,255,.12);
+      background: linear-gradient(135deg, rgba(21,183,255,.12), rgba(124,58,237,.12));
+      box-shadow: var(--shadow);
+      padding: 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 16px;
+      overflow:hidden;
+      position:relative;
+    }
+    .band:before{
+      content:"";
+      position:absolute; inset:-30%;
+      background: radial-gradient(circle at 30% 30%, rgba(21,183,255,.28), transparent 55%);
+      filter: blur(18px);
+      opacity:.7;
+    }
+    .band > *{ position:relative; }
+    .band h4{ margin:0; font-size: 18px; letter-spacing:-.2px;}
+    .band p{ margin:6px 0 0; color: var(--muted); font-size: 13px; line-height:1.55; max-width: 70ch; }
+
+    /* footer/contact */
+    footer{
+      padding: 30px 0 44px;
+      border-top: 1px solid rgba(234,240,255,.08);
+      background: rgba(7,10,18,.35);
+    }
+    .footerGrid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 18px;
+      align-items:start;
+    }
+    .contact{
+      border-radius: var(--radius);
+      border: 1px solid rgba(234,240,255,.10);
+      background: rgba(14,23,48,.34);
+      padding: 16px;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted2);
+      margin-bottom: 7px;
+      letter-spacing:.25px;
+    }
+    input, textarea{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(234,240,255,.12);
+      background: rgba(7,10,18,.35);
+      color: var(--text);
+      outline:none;
+      font-size: 13px;
+    }
+    input:focus, textarea:focus{ border-color: rgba(21,183,255,.35); }
+    textarea{ min-height: 110px; resize: vertical; }
+
+    .fine{
+      color: var(--muted2);
+      font-size: 12px;
+      line-height:1.5;
+    }
+
+    .footLinks{
+      display:grid;
+      gap: 10px;
+      align-content:start;
+    }
+    .footLinks a{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(234,240,255,.10);
+      background: rgba(14,23,48,.22);
+      color: var(--muted);
+    }
+    .footLinks a:hover{ color: var(--text); border-color: rgba(234,240,255,.18); }
+
+    /* small helpers */
+    .muted{ color: var(--muted); }
+    .spacer{ height: 10px; }
+    .hideMobile{ display: block; }
+
+    /* responsive */
+    @media (max-width: 980px){
+      .heroGrid{ grid-template-columns: 1fr; }
+      .cards .card{ grid-column: span 6; }
+      .steps .step{ grid-column: span 6; }
+      .footerGrid{ grid-template-columns: 1fr; }
+      .hideMobile{ display:none; }
+    }
+    @media (max-width: 640px){
+      .links{ display:none; }
+      .hamburger{ display:inline-flex; }
+      .cards .card{ grid-column: span 12; }
+      .steps .step{ grid-column: span 12; }
+      .row{ grid-template-columns: 1fr; }
+      .brand{ min-width: auto; }
+    }
+
+    /* motion */
+    .reveal{ opacity:0; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.show{ opacity:1; transform:none; }
+  </style>
+</head>
+
+<body>
+  <div class="grid" aria-hidden="true"></div>
+
+  <header>
+    <div class="wrap nav">
+      <div class="brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <h1>AI Cloud Builders (Pty) Ltd</h1>
+          <p>Cloud • Data • AI • DevOps • Security</p>
+        </div>
+      </div>
+
+      <nav class="links" aria-label="Primary">
+        <a href="#services">Services</a>
+        <a href="#agri">IoT Agriculture</a>
+        <a href="#delivery">Delivery</a>
+        <a href="#security">Security & GRC</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="cta">
+        <a class="btn hamburger" href="#contact" title="Contact">
+          <span class="dot" aria-hidden="true"></span> Contact
+        </a>
+        <a class="btn" href="#services">Explore Services</a>
+        <a class="btn primary" href="#contact">
+          <span class="dot" aria-hidden="true"></span> Book a Call
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap heroGrid">
+        <div class="reveal">
+          <div class="kicker">
+            <span class="pill">Enterprise-ready</span>
+            <span>Architecture + Delivery • Built for production, not demos</span>
+          </div>
+
+          <h2>
+            We build <span class="grad">secure</span>, <span class="grad">scalable</span> platforms across
+            <span class="grad">Cloud</span>, <span class="grad">Data</span> & <span class="grad">AI</span>.
+          </h2>
+
+          <p class="lead">
+            AI Cloud Builders helps organizations deliver modern cloud platforms, IoT solutions for agriculture,
+            data engineering and transformation, and agentic AI systems — with DevOps, GitOps, and governance baked in.
+          </p>
+
+          <div class="heroActions">
+            <a class="btn primary" href="#contact"><span class="dot" aria-hidden="true"></span> Get a proposal-ready capability pack</a>
+            <a class="btn" href="#delivery">See how we deliver</a>
+          </div>
+
+          <div class="trustRow">
+            <span><span class="tick">✓</span> Azure • AWS • GCP</span>
+            <span><span class="tick">✓</span> Terraform • GitHub • GitOps</span>
+            <span><span class="tick">✓</span> Security • Data Classification • GRC</span>
+          </div>
+        </div>
+
+        <aside class="heroCard reveal">
+          <div class="cardTitle">
+            <div class="badge"><span class="spark" aria-hidden="true"></span> Typical outcomes</div>
+            <div class="badge hideMobile">90-day delivery roadmap</div>
+          </div>
+
+          <div class="stack">
+            <div class="mini">
+              <h4>Platform Build</h4>
+              <p>Landing zones, networks, IAM, CI/CD, observability — production-grade foundations.</p>
+            </div>
+            <div class="mini">
+              <h4>Data & AI</h4>
+              <p>Modern pipelines, lakehouse patterns, governance, and agentic AI solutions.</p>
+            </div>
+            <div class="mini">
+              <h4>DevOps & GitOps</h4>
+              <p>Infrastructure as Code with Terraform, GitHub workflows, and policy-as-code.</p>
+            </div>
+            <div class="mini">
+              <h4>Security & GRC</h4>
+              <p>Classification, controls, risk treatment, secure SDLC, and audit evidence.</p>
+            </div>
+          </div>
+
+          <div class="callout">
+            <div class="icon" aria-hidden="true">⚡</div>
+            <div>
+              <h5>Fast clarity, controlled delivery</h5>
+              <p>We reduce delivery risk by aligning architecture, security, and implementation from day one — with measurable milestones.</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="wrap">
+        <div class="sectionHead reveal">
+          <div>
+            <h3>Capabilities</h3>
+            <p>Premium architecture and hands-on delivery across cloud, data and AI — designed for reliability, governance and scale.</p>
+          </div>
+          <a class="btn" href="#contact">Request capability statement</a>
+        </div>
+
+        <div class="cards">
+          <article class="card reveal">
+            <div class="top">
+              <span class="chip"><span class="bubble"></span> Cloud Platform</span>
+              <span class="muted">Azure • AWS • GCP</span>
+            </div>
+            <h4>Cloud architecture & platform engineering</h4>
+            <p>Secure landing zones, networks, identity, guardrails, logging, and operational readiness.</p>
+            <ul class="list">
+              <li>Reference architecture + bill of materials</li>
+              <li>Security baseline + policy guardrails</li>
+              <li>Observability, SRE and runbooks</li>
+            </ul>
+          </article>
+
+          <article class="card reveal">
+            <div class="top">
+              <span class="chip"><span class="bubble"></span> DevOps</span>
+              <span class="muted">Terraform • CI/CD</span>
+            </div>
+            <h4>DevOps build & modernization</h4>
+            <p>Automate delivery pipelines and infrastructure with reliable, repeatable engineering practices.</p>
+            <ul class="list">
+              <li>Terraform modules and environments</li>
+              <li>Release strategies and environments</li>
+              <li>Secrets, identity, and automation hardening</li>
+            </ul>
+          </article>
+
+          <article class="card reveal">
+            <div class="top">
+              <span class="chip"><span class="bubble"></span> GitOps</span>
+              <span class="muted">GitHub</span>
+            </div>
+            <h4>GitOps with GitHub</h4>
+            <p>Git as the source of truth: approvals, promotion, policy, and environment consistency.</p>
+            <ul class="list">
+              <li>Branching models and governance</li>
+              <li>Environment promotion and drift control</li>
+              <li>Policy-as-code and audit traceability</li>
+            </ul>
+          </article>
+
+          <article class="card reveal">
+            <div class="top">
+              <span class="chip"><span class="bubble"></span> Data Engineering</span>
+              <span class="muted">Transform • Scale</span>
+            </div>
+            <h4>Data pipelines & transformation</h4>
+            <p>Design and build modern data platforms with quality, lineage, and measurable outcomes.</p>
+            <ul class="list">
+              <li>Ingestion, ELT/ETL, orchestration</li>
+              <li>Data quality checks and SLAs</li>
+              <li>Lakehouse patterns and governance</li>
+            </ul>
+          </article>
+
+          <article class="card reveal">
+            <div class="top">
+              <span class="chip"><span class="bubble"></span> AI</span>
+              <span class="muted">Azure AI • Google AI</span>
+            </div>
+            <h4>Agentic AI & enterprise AI services</h4>
+            <p>AI solutions that integrate with your business processes, data, and security requirements.</p>
+            <ul class="list">
+              <li>Agent orchestration and tool calling</li>
+              <li>RAG, search, and knowledge grounding</li>
+              <li>Model governance and safety patterns</li>
+            </ul>
+          </article>
+
+          <article class="card reveal" id="security">
+            <div class="top">
+              <span class="chip"><span class="bubble"></span> Security & GRC</span>
+              <span class="muted">Risk • Controls</span>
+            </div>
+            <h4>Cyber security, classification & compliance</h4>
+            <p>Practical security and governance that supports delivery speed while protecting the organization.</p>
+            <ul class="list">
+              <li>Data classification and protection</li>
+              <li>Secure SDLC and cloud security baselines</li>
+              <li>Risk registers, controls mapping, evidence packs</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- AGRI IOT -->
+    <section id="agri">
+      <div class="wrap">
+        <div class="sectionHead reveal">
+          <div>
+            <h3>IoT for Agriculture</h3>
+            <p>From field telemetry to actionable insights — secure sensor ingestion, edge patterns, and data pipelines designed for uptime and scale.</p>
+          </div>
+        </div>
+
+        <div class="cards">
+          <article class="card reveal" style="grid-column: span 6;">
+            <div class="top">
+              <span class="chip"><span class="bubble"></span> Edge → Cloud</span>
+              <span class="muted">Reliable ingestion</span>
+            </div>
+            <h4>Sensor & telemetry architecture</h4>
+            <p>Design ingestion patterns for intermittent connectivity, device identity, and secure provisioning.</p>
+            <ul class="list">
+              <li>Device onboarding, identity, and key management</li>
+              <li>Offline-first buffering and resend strategies</li>
+              <li>Observability: device health, metrics, alerts</li>
+            </ul>
+          </article>
+
+          <article class="card reveal" style="grid-column: span 6;">
+            <div class="top">
+              <span class="chip"><span class="bubble"></span> Data → Decisions</span>
+              <span class="muted">Operational insights</span>
+            </div>
+            <h4>Analytics & automation</h4>
+            <p>Transform raw signals into decisions — alerts, forecasting, anomaly detection, and automated workflows.</p>
+            <ul class="list">
+              <li>Stream/Batch processing and transformation</li>
+              <li>Dashboards, reporting, and operational KPIs</li>
+              <li>AI-driven detection and recommendations</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- DELIVERY -->
+    <section id="delivery">
+      <div class="wrap">
+        <div class="sectionHead reveal">
+          <div>
+            <h3>How we deliver</h3>
+            <p>Clear outcomes, controlled risk. A delivery model that keeps stakeholders aligned and environments stable.</p>
+          </div>
+        </div>
+
+        <div class="steps">
+          <div class="step reveal">
+            <div class="num">1</div>
+            <h4>Assess</h4>
+            <p>Fast discovery: objectives, risks, current state, security requirements, and delivery constraints.</p>
+          </div>
+          <div class="step reveal">
+            <div class="num">2</div>
+            <h4>Architect</h4>
+            <p>Reference architecture, decisions, tradeoffs, BOM, and a phased roadmap with measurable milestones.</p>
+          </div>
+          <div class="step reveal">
+            <div class="num">3</div>
+            <h4>Build</h4>
+            <p>IaC, CI/CD, GitOps, environments, data pipelines, and production-ready AI patterns.</p>
+          </div>
+          <div class="step reveal">
+            <div class="num">4</div>
+            <h4>Operate</h4>
+            <p>Runbooks, monitoring, incident workflows, cost controls, and evidence packs for audits.</p>
+          </div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="band reveal">
+          <div>
+            <h4>Want a premium, procurement-friendly capability pack?</h4>
+            <p>
+              We can provide a concise capability statement, service catalogue, rate card structure, and an engagement approach
+              that works well for enterprise procurement and delivery governance.
+            </p>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn" href="#contact">Request pack</a>
+            <a class="btn primary" href="#contact"><span class="dot" aria-hidden="true"></span> Book a call</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT / FOOTER -->
+    <footer id="contact">
+      <div class="wrap footerGrid">
+        <div class="reveal">
+          <div class="brand" style="margin-bottom:12px;">
+            <div class="mark" aria-hidden="true"></div>
+            <div>
+              <h1 style="font-size:15px;">AI Cloud Builders (Pty) Ltd</h1>
+              <p>Engineering outcomes across Cloud • Data • AI</p>
+            </div>
+          </div>
+
+          <p class="fine">
+            <strong>Working model:</strong> contract engagements, architecture + delivery, and retained advisory.
+            <br/>
+            <span class="muted">Serving agriculture, regulated industries, and enterprise technology teams.</span>
+          </p>
+
+          <div class="footLinks" style="margin-top:14px;">
+            <a href="#services">
+              <span>Capabilities</span><span class="muted">→</span>
+            </a>
+            <a href="#agri">
+              <span>IoT Agriculture</span><span class="muted">→</span>
+            </a>
+            <a href="#security">
+              <span>Security & GRC</span><span class="muted">→</span>
+            </a>
+          </div>
+
+          <div class="spacer"></div>
+          <p class="fine">
+            <span class="muted">© <span id="year"></span> AI Cloud Builders (Pty) Ltd.</span>
+            <br/>
+            <span class="muted">Domain:</span> aicloud.builders
+          </p>
+        </div>
+
+        <div class="contact reveal">
+          <h3 style="margin:0 0 6px;">Contact</h3>
+          <p class="muted" style="margin:0 0 12px; font-size:13px; line-height:1.55;">
+            Tell us what you’re trying to achieve. We’ll respond with the fastest path to a secure, production-ready solution.
+          </p>
+
+          <!-- This form uses mailto for zero-backend simplicity.
+               If you want a real form (Netlify Forms / Formspree), tell me and I’ll wire it in. -->
+          <form id="contactForm">
+            <div class="row">
+              <div>
+                <label for="name">Full name</label>
+                <input id="name" name="name" placeholder="Your name" required />
+              </div>
+              <div>
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="you@company.com" required />
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="company">Company</label>
+                <input id="company" name="company" placeholder="Company / Org" />
+              </div>
+              <div>
+                <label for="topic">Topic</label>
+                <input id="topic" name="topic" placeholder="Cloud, Data, AI, Security, IoT..." />
+              </div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="What’s the goal, timeline, and current constraints?" required></textarea>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center; margin-top:12px; flex-wrap:wrap;">
+              <button class="btn primary" type="submit"><span class="dot" aria-hidden="true"></span> Send enquiry</button>
+              <a class="btn" href="mailto:hello@aicloud.builders?subject=Enquiry%20-%20AI%20Cloud%20Builders">Email directly</a>
+            </div>
+
+            <p class="fine" style="margin-top:10px;">
+              <span class="muted">Tip:</span> Use a professional email (e.g. <span class="muted">you@aicloud.builders</span>) for enterprise engagement.
+            </p>
+          </form>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // reveal on scroll
+    const els = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting) e.target.classList.add('show');
+      });
+    }, { threshold: 0.15 });
+    els.forEach(el => io.observe(el));
+
+    // mailto submit (no backend)
+    document.getElementById('contactForm').addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const company = document.getElementById('company').value.trim();
+      const topic = document.getElementById('topic').value.trim();
+      const msg = document.getElementById('message').value.trim();
+
+      const subject = encodeURIComponent(`Enquiry - AI Cloud Builders${topic ? " - " + topic : ""}`);
+      const body = encodeURIComponent(
+        `Name: ${name}\nEmail: ${email}\nCompany: ${company}\nTopic: ${topic}\n\nMessage:\n${msg}\n`
+      );
+
+      // Change this to your real inbox when ready:
+      const to = "hello@aicloud.builders";
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    });
+  </script>
+</body>
+</html>
